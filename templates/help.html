@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Help - FraudGuard</title>
+
+    <style>
+
+        /* =========================================================
+           GLOBAL RESET
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f1512;
+            color: #ffffff;
+        }
+
+
+        /* =========================================================
+           MAIN PAGE CONTAINER
+        ========================================================= */
+
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 25px;
+        }
+
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        .header {
+            background: linear-gradient(
+                135deg,
+                #183d31,
+                #102a22
+            );
+
+            color: white;
+
+            padding: 35px;
+
+            border-radius: 18px;
+
+            margin-bottom: 30px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.25);
+
+            border: 1px solid #28312d;
+        }
+
+        .header h1 {
+            margin: 0 0 10px;
+
+            font-size: 32px;
+
+            color: #ffffff;
+        }
+
+        .header p {
+            margin: 0;
+
+            font-size: 16px;
+
+            line-height: 1.6;
+
+            opacity: 0.95;
+
+            color: #cbd5d1;
+        }
+
+
+        /* =========================================================
+           BUTTON
+        ========================================================= */
+
+        .back-btn {
+            display: inline-block;
+
+            margin-top: 20px;
+
+            padding: 10px 18px;
+
+            background: #22c486;
+
+            color: #0f1512;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            transition: 0.2s ease;
+
+            border: 1px solid #22c486;
+        }
+
+        .back-btn:hover {
+            background: #1db477;
+
+            color: #ffffff;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================================================
+           HELP SECTIONS
+        ========================================================= */
+
+        .section {
+            background: #151c19;
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.20);
+
+            border: 1px solid #28312d;
+        }
+
+        .section h2 {
+            margin-top: 0;
+
+            margin-bottom: 15px;
+
+            color: #22c486;
+
+            font-size: 21px;
+        }
+
+        .section p {
+            line-height: 1.7;
+
+            margin-bottom: 10px;
+
+            color: #cbd5d1;
+        }
+
+        .section ul {
+            line-height: 1.9;
+
+            padding-left: 25px;
+
+            color: #aeb8b3;
+        }
+
+        .section li {
+            margin-bottom: 4px;
+        }
+
+        .section strong {
+            color: #ffffff;
+        }
+
+
+        /* =========================================================
+           FAQ BOX
+        ========================================================= */
+
+        .faq {
+            border-left: 4px solid #22c486;
+
+            padding: 14px 18px;
+
+            margin: 15px 0;
+
+            background: #18221e;
+
+            border-radius: 8px;
+
+            color: #cbd5d1;
+
+            line-height: 1.6;
+
+            transition: 0.2s ease;
+        }
+
+        .faq:hover {
+            background: #1b2823;
+
+            transform: translateX(2px);
+        }
+
+        .faq strong {
+            display: block;
+
+            margin-bottom: 6px;
+
+            color: #22c486;
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .footer {
+            text-align: center;
+
+            margin-top: 30px;
+
+            padding: 20px;
+
+            color: #6f7b75;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================================================
+           MOBILE RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 700px) {
+
+            .page {
+                padding: 20px 15px;
+            }
+
+            .header {
+                padding: 25px;
+
+                border-radius: 15px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+            .header p {
+                font-size: 14px;
+            }
+
+            .section {
+                padding: 20px;
+
+                border-radius: 13px;
+            }
+
+            .section h2 {
+                font-size: 19px;
+            }
+
+            .section p,
+            .section li {
+                font-size: 14px;
+            }
+
+            .back-btn {
+                width: 100%;
+
+                text-align: center;
+            }
+
+            .faq {
+                padding: 12px 15px;
+            }
+        }
+
+
+        /* =========================================================
+           SMALL MOBILE DEVICES
+        ========================================================= */
+
+        @media (max-width: 420px) {
+
+            .page {
+                padding: 15px 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .section {
+                padding: 17px;
+            }
+
+            .section ul {
+                padding-left: 20px;
+            }
+
+            .footer {
+                font-size: 12px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+    <!-- =========================================================
+         HELP PAGE HEADER
+    ========================================================== -->
+
+    <div class="header">
+
+        <h1>
+            ❓ FraudGuard Help Center
+        </h1>
+
+        <p>
+            Welcome to FraudGuard. This page explains how to use
+            the Credit Card Fraud Detection System.
+        </p>
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="back-btn"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- =========================================================
+         GETTING STARTED
+    ========================================================== -->
+
+    <div class="section">
+
+        <h2>🚀 Getting Started</h2>
+
+        <p>
+            FraudGuard is a Credit Card Fraud Detection System
+            that uses a machine learning model to identify
+            potentially fraudulent transactions.
+        </p>
+
+        <ul>
+
+            <li>
+                Login to your FraudGuard account.
+            </li>
+
+            <li>
+                Open the Dashboard.
+            </li>
+
+            <li>
+                Use <strong>Detect Fraud</strong> for an
+                individual transaction.
+            </li>
+
+            <li>
+                Use <strong>Bulk Prediction</strong> for
+                multiple transactions.
+            </li>
+
+            <li>
+                Check <strong>Analytics</strong> for
+                transaction statistics.
+            </li>
+
+            <li>
+                Check <strong>Prediction History</strong>
+                for previous predictions.
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- =========================================================
+         DETECT FRAUD
+    ========================================================== -->
+
+    <div class="section">
+
+        <h2>🔍 How to Detect Fraud</h2>
+
+        <p>
+            The Detect Fraud page allows you to check an individual
+            credit card transaction using the trained machine
+            learning model.
+        </p>
+
+        <ul>
+
+            <li>
+                Enter the transaction <strong>Time</strong>.
+            </li>
+
+            <li>
+                Enter the <strong>V1 to V28</strong>
+                transaction values.
+            </li>
+
+            <li>
+                Enter the transaction <strong>Amount</strong>.
+            </li>
+
+            <li>
+                Click the prediction button.
+            </li>
+
+            <li>
+                The system will process the transaction.
+            </li>
+
+            <li>
+                The prediction result will then be displayed.
+            </li>
+
+        </ul>
+
+        <p>
+            The result can indicate whether the transaction is
+            <strong>Normal</strong> or
+            <strong>Fraudulent</strong>.
+        </p>
+
+    </div>
+
+
+    <!-- =========================================================
+         BULK PREDICTION
+    ========================================================== -->
+
+    <div class="section">
+
+        <h2>📂 Bulk Prediction</h2>
+
+        <p>
+            Bulk Prediction allows you to upload a CSV file
+            containing multiple credit card transactions.
+        </p>
+
+        <ul>
+
+            <li>
+                Prepare a CSV file with the required columns.
+            </li>
+
+            <li>
+                Upload the CSV file.
+            </li>
+
+            <li>
+                Start the prediction process.
+            </li>
+
+            <li>
+                Review the prediction results.
+            </li>
+
+        </ul>
+
+        <p>
+            The required transaction columns include
+            <strong>Time, V1 to V28, and Amount</strong>.
+        </p>
+
+    </div>
+
+
+    <!-- =========================================================
+         ANALYTICS
+    ========================================================== -->
+
+    <div class="section">
+
+        <h2>📊 Analytics</h2>
+
+        <p>
+            The Analytics page provides visual information about
+            the dataset and prediction results.
+        </p>
+
+        <ul>
+
+            <li>
+                Total transactions
+            </li>
+
+            <li>
+                Normal transactions
+            </li>
+
+            <li>
+                Fraudulent transactions
+            </li>
+
+            <li>
+                Fraud rate
+            </li>
+
+            <li>
+                Transaction amount information
+            </li>
+
+            <li>
+                Charts and graphs
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- =========================================================
+         PREDICTION HISTORY
+    ========================================================== -->
+
+    <div class="section">
+
+        <h2>📜 Prediction History</h2>
+
+        <p>
+            Prediction History stores predictions made through
+            the individual fraud detection system.
+        </p>
+
+        <ul>
+
+            <li>
+                View previous predictions.
+            </li>
+
+            <li>
+                See prediction date and time.
+            </li>
+
+            <li>
+                See transaction amount.
+            </li>
+
+            <li>
+                See Normal or Fraud result.
+            </li>
+
+            <li>
+                View fraud probability when available.
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- =========================================================
+         SETTINGS
+    ========================================================== -->
+
+    <div class="section">
+
+        <h2>⚙️ Settings</h2>
+
+        <p>
+            The Settings page allows you to manage available
+            application preferences.
+        </p>
+
+        <ul>
+
+            <li>
+                Dark/Light appearance options
+            </li>
+
+            <li>
+                Notification preferences
+            </li>
+
+            <li>
+                Prediction result format
+            </li>
+
+            <li>
+                Currency preference
+            </li>
+
+            <li>
+                Account information
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- =========================================================
+         FREQUENTLY ASKED QUESTIONS
+    ========================================================== -->
+
+    <div class="section">
+
+        <h2>❓ Frequently Asked Questions</h2>
+
+
+        <div class="faq">
+
+            <strong>
+                Q: What is FraudGuard?
+            </strong>
+
+            A: FraudGuard is a machine learning based
+            credit card fraud detection system.
+
+        </div>
+
+
+        <div class="faq">
+
+            <strong>
+                Q: What does "Normal" mean?
+            </strong>
+
+            A: It means the machine learning model classified
+            the transaction as a normal transaction.
+
+        </div>
+
+
+        <div class="faq">
+
+            <strong>
+                Q: What does "Fraud" mean?
+            </strong>
+
+            A: It means the model classified the transaction
+            as potentially fraudulent.
+
+        </div>
+
+
+        <div class="faq">
+
+            <strong>
+                Q: Can I check multiple transactions?
+            </strong>
+
+            A: Yes. Use the Bulk Prediction page to upload
+            a CSV file containing multiple transactions.
+
+        </div>
+
+
+        <div class="faq">
+
+            <strong>
+                Q: Where can I see previous predictions?
+            </strong>
+
+            A: Open the Prediction History page from
+            the dashboard.
+
+        </div>
+
+
+        <div class="faq">
+
+            <strong>
+                Q: What should I do if the system shows an error?
+            </strong>
+
+            A: Check that all required fields are filled correctly
+            and that the uploaded CSV contains the required columns.
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         SUPPORT
+    ========================================================== -->
+
+    <div class="section">
+
+        <h2>📞 Need More Help?</h2>
+
+        <p>
+            If you experience a problem while using FraudGuard,
+            check the required input values and try again.
+        </p>
+
+        <p>
+            You can also visit the
+            <strong>Contact</strong> page
+            for further assistance.
+        </p>
+
+        <a
+            href="{{ url_for('contact') }}"
+            class="back-btn"
+        >
+            ✉ Contact Us
+        </a>
+
+    </div>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <div class="footer">
+
+        <p>
+            FraudGuard — Credit Card Fraud Detection System
+        </p>
+
+        <p>
+            © 2026 FraudGuard. All Rights Reserved.
+        </p>
+
+    </div>
+
+
+</div>
+
+</body>
+
+</html>

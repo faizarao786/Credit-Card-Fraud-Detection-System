@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Prediction History - FraudGuard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* ============================================================
+           PREDICTION HISTORY PAGE
+           ============================================================ */
+
+        .history-container {
+            padding: 30px;
+        }
+
+        .history-header {
+            margin-bottom: 25px;
+        }
+
+        .history-header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .history-header p {
+            margin-top: 8px;
+            opacity: 0.7;
+        }
+
+        /* Summary Cards */
+        .history-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            padding: 22px;
+            border-radius: 14px;
+            background: var(--card-bg, #ffffff);
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .summary-card h3 {
+            margin: 0 0 8px;
+            font-size: 15px;
+            opacity: 0.7;
+        }
+
+        .summary-card .number {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* History Table */
+        .history-card {
+            background: var(--card-bg, #ffffff);
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        .history-card h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+        }
+
+        .history-table th {
+            font-size: 14px;
+            opacity: 0.75;
+        }
+
+        .history-table td {
+            font-size: 14px;
+        }
+
+        /* Status */
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-fraud {
+            background: #ffe1e1;
+            color: #c62828;
+        }
+
+        .status-normal {
+            background: #dcf8e5;
+            color: #1b7a3a;
+        }
+
+        /* Empty State */
+        .empty-history {
+            text-align: center;
+            padding: 50px 20px;
+            opacity: 0.7;
+        }
+
+        .empty-history .icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+
+            .history-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .history-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============================================================
+         SIDEBAR
+         ============================================================ -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <span>🛡️</span>
+            <span>FraudGuard</span>
+        </div>
+
+        <nav>
+
+            <a href="{{ url_for('dashboard') }}" class="nav-link">
+                <span class="nav-icon">📊</span>
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('detect') }}" class="nav-link">
+                <span class="nav-icon">🔍</span>
+                Detect Fraud
+            </a>
+
+            <a href="{{ url_for('bulk_prediction') }}" class="nav-link">
+                <span class="nav-icon">📁</span>
+                Bulk Prediction
+            </a>
+
+            <a href="{{ url_for('analytics') }}" class="nav-link">
+                <span class="nav-icon">📈</span>
+                Analytics
+            </a>
+
+            <a href="{{ url_for('transactions') }}" class="nav-link">
+                <span class="nav-icon">💳</span>
+                Transactions
+            </a>
+
+            <a href="{{ url_for('fraud_alerts') }}" class="nav-link">
+                <span class="nav-icon">🚨</span>
+                Fraud Alerts
+            </a>
+
+            <!-- Prediction History -->
+            <a href="{{ url_for('prediction_history') }}" class="nav-link active">
+                <span class="nav-icon">🕒</span>
+                Prediction History
+            </a>
+
+            <a href="{{ url_for('about') }}" class="nav-link">
+                <span class="nav-icon">ℹ️</span>
+                About
+            </a>
+
+            <a href="{{ url_for('contact') }}" class="nav-link">
+                <span class="nav-icon">📩</span>
+                Contact
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="{{ url_for('logout') }}" class="nav-link">
+                <span class="nav-icon">🚪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ============================================================
+         MAIN CONTENT
+         ============================================================ -->
+
+    <main class="main-content">
+
+        <!-- Top Bar -->
+        <header class="topbar">
+
+            <div>
+                <h2>Prediction History</h2>
+            </div>
+
+            <div class="topbar-right">
+
+                {% if session.get("user") %}
+                    <span class="user-name">
+                        👤 {{ session.get("user") }}
+                    </span>
+                {% endif %}
+
+                <!-- Theme Toggle -->
+                <button id="themeToggle"
+                        class="theme-toggle"
+                        type="button">
+                    🌙
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- Page Content -->
+        <section class="history-container">
+
+            <div class="history-header">
+
+                <h1>Prediction History</h1>
+
+                <p>
+                    View your previous fraud detection predictions.
+                </p>
+
+            </div>
+
+
+            <!-- ====================================================
+                 SUMMARY CARDS
+                 ==================================================== -->
+
+            <div class="history-summary">
+
+                <div class="summary-card">
+
+                    <h3>Total Predictions</h3>
+
+                    <div class="number">
+                        {{ total_predictions|default(0) }}
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <h3>Fraud Detected</h3>
+
+                    <div class="number">
+                        {{ fraud_predictions|default(0) }}
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <h3>Normal Transactions</h3>
+
+                    <div class="number">
+                        {{ normal_predictions|default(0) }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ====================================================
+                 HISTORY TABLE
+                 ==================================================== -->
+
+            <div class="history-card">
+
+                <h2>Recent Predictions</h2>
+
+                {% if predictions %}
+
+                <table class="history-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>#</th>
+                            <th>Date & Time</th>
+                            <th>Amount</th>
+                            <th>Prediction</th>
+                            <th>Probability</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for prediction in predictions %}
+
+                        <tr>
+
+                            <td>
+                                {{ loop.index }}
+                            </td>
+
+                            <td>
+                                {{ prediction.datetime }}
+                            </td>
+
+                            <td>
+                                ${{ prediction.amount }}
+                            </td>
+
+                            <td>
+
+                                {% if prediction.result == "Fraud" %}
+
+                                    <span class="status status-fraud">
+                                        🚨 Fraud
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status status-normal">
+                                        ✓ Normal
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ prediction.probability }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+                {% else %}
+
+                <div class="empty-history">
+
+                    <div class="icon">
+                        🕒
+                    </div>
+
+                    <h3>No Prediction History Yet</h3>
+
+                    <p>
+                        Your fraud detection predictions will
+                        appear here after you perform a prediction.
+                    </p>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ============================================================
+         THEME TOGGLE
+         ============================================================ -->
+
+    <script>
+
+        const themeToggle =
+            document.getElementById("themeToggle");
+
+        themeToggle.addEventListener("click", function () {
+
+            document.body.classList.toggle("dark-mode");
+
+            if (
+                document.body.classList.contains("dark-mode")
+            ) {
+
+                themeToggle.textContent = "☀️";
+
+                localStorage.setItem(
+                    "fraudguard-theme",
+                    "dark"
+                );
+
+            } else {
+
+                themeToggle.textContent = "🌙";
+
+                localStorage.setItem(
+                    "fraudguard-theme",
+                    "light"
+                );
+            }
+
+        });
+
+
+        /* Load saved theme */
+
+        const savedTheme =
+            localStorage.getItem("fraudguard-theme");
+
+        if (savedTheme === "dark") {
+
+            document.body.classList.add("dark-mode");
+
+            themeToggle.textContent = "☀️";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

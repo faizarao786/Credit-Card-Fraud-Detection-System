@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | Credit Card Fraud Detection</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #101513,
+                    #18211d,
+                    #0d1210
+                );
+
+            color: #ffffff;
+
+            padding: 20px;
+        }
+
+
+        .register-container {
+
+            width: 100%;
+
+            max-width: 460px;
+
+            background: #151b18;
+
+            border: 1px solid #26332d;
+
+            border-radius: 20px;
+
+            padding: 38px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0, 0, 0, 0.45);
+        }
+
+
+        .logo {
+
+            width: 64px;
+
+            height: 64px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin: 0 auto 20px;
+
+            border-radius: 18px;
+
+            background: #18a673;
+
+            font-size: 30px;
+
+            box-shadow:
+                0 10px 25px
+                rgba(24, 166, 115, 0.25);
+        }
+
+
+        h1 {
+
+            text-align: center;
+
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .subtitle {
+
+            text-align: center;
+
+            color: #9aa9a2;
+
+            font-size: 14px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .form-group {
+
+            margin-bottom: 18px;
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #d9e3de;
+        }
+
+
+        input {
+
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border-radius: 10px;
+
+            border: 1px solid #34433b;
+
+            background: #101513;
+
+            color: #ffffff;
+
+            outline: none;
+
+            font-size: 15px;
+
+            transition: 0.2s;
+        }
+
+
+        input:focus {
+
+            border-color: #18a673;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(24, 166, 115, 0.12);
+        }
+
+
+        input::placeholder {
+
+            color: #65736c;
+        }
+
+
+        .register-btn {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 8px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #18a673;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .register-btn:hover {
+
+            background: #149565;
+
+            transform: translateY(-1px);
+        }
+
+
+        .message {
+
+            padding: 12px 14px;
+
+            margin-bottom: 18px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            background: rgba(217, 124, 79, 0.12);
+
+            border: 1px solid
+                rgba(217, 124, 79, 0.3);
+
+            color: #f0b08f;
+        }
+
+
+        .bottom-text {
+
+            text-align: center;
+
+            margin-top: 24px;
+
+            color: #9aa9a2;
+
+            font-size: 14px;
+        }
+
+
+        .bottom-text a {
+
+            color: #45d69e;
+
+            text-decoration: none;
+
+            font-weight: 700;
+        }
+
+
+        .bottom-text a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        .back-home {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #7f8e87;
+
+            text-decoration: none;
+
+            font-size: 13px;
+        }
+
+
+        .back-home:hover {
+
+            color: #45d69e;
+        }
+
+
+        .password-note {
+
+            margin-top: 6px;
+
+            font-size: 12px;
+
+            color: #718078;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="register-container">
+
+
+        <!-- Logo -->
+
+        <div class="logo">
+            🛡️
+        </div>
+
+
+        <h1>
+            Create Account
+        </h1>
+
+
+        <p class="subtitle">
+            Create your account to access the
+            Fraud Detection System
+        </p>
+
+
+        <!-- Flask Messages -->
+
+        {% with messages = get_flashed_messages(
+            with_categories=true
+        ) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- Registration Form -->
+
+        <form
+            action="{{ url_for('register') }}"
+            method="POST"
+        >
+
+
+            <!-- Name -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Email -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Create a password"
+                    minlength="6"
+                    required
+                >
+
+                <div class="password-note">
+                    Password must contain at least 6 characters.
+                </div>
+
+            </div>
+
+
+            <!-- Confirm Password -->
+
+            <div class="form-group">
+
+                <label for="confirm_password">
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirm_password"
+                    name="confirm_password"
+                    placeholder="Enter your password again"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Submit -->
+
+            <button
+                type="submit"
+                class="register-btn"
+            >
+                Create Account
+            </button>
+
+
+        </form>
+
+
+        <!-- Login Link -->
+
+        <div class="bottom-text">
+
+            Already have an account?
+
+            <a href="{{ url_for('login') }}">
+                Sign In
+            </a>
+
+        </div>
+
+
+        <!-- Home -->
+
+        <a
+            href="{{ url_for('index') }}"
+            class="back-home"
+        >
+            ← Back to Home
+        </a>
+
+
+    </div>
+
+
+</body>
+
+</html>

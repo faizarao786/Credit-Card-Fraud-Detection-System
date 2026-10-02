@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | Credit Card Fraud Detection</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #101513,
+                    #18211d,
+                    #0d1210
+                );
+
+            color: #ffffff;
+
+            padding: 30px;
+        }
+
+
+        .profile-container {
+
+            width: 100%;
+
+            max-width: 850px;
+
+            margin: 40px auto;
+
+            background: #151b18;
+
+            border: 1px solid #26332d;
+
+            border-radius: 20px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0, 0, 0, 0.45);
+        }
+
+
+        /* ----------------------------------------------------
+           HEADER
+        ---------------------------------------------------- */
+
+        .profile-header {
+
+            text-align: center;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* ----------------------------------------------------
+           PROFILE PICTURE
+        ---------------------------------------------------- */
+
+        .profile-picture-wrapper {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .profile-picture {
+
+            width: 120px;
+
+            height: 120px;
+
+            object-fit: cover;
+
+            border-radius: 50%;
+
+            display: block;
+
+            margin: 0 auto 15px;
+
+            border: 4px solid #18a673;
+
+            box-shadow:
+                0 10px 30px
+                rgba(24, 166, 115, 0.25);
+        }
+
+
+        .default-profile-picture {
+
+            width: 120px;
+
+            height: 120px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            background: #18a673;
+
+            border: 4px solid #45d69e;
+
+            font-size: 55px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(24, 166, 115, 0.25);
+        }
+
+
+        .picture-form {
+
+            margin-top: 10px;
+        }
+
+
+        .picture-input {
+
+            display: block;
+
+            width: 100%;
+
+            max-width: 350px;
+
+            margin: 0 auto 12px;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            border: 1px solid #34433b;
+
+            background: #101513;
+
+            color: #ffffff;
+
+            font-size: 13px;
+        }
+
+
+        .picture-input::file-selector-button {
+
+            background: #18a673;
+
+            color: #ffffff;
+
+            border: none;
+
+            padding: 8px 12px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            margin-right: 8px;
+        }
+
+
+        /* ----------------------------------------------------
+           UPLOAD BUTTON
+        ---------------------------------------------------- */
+
+        .upload-picture-btn {
+
+            background: #26332d;
+
+            color: #ffffff;
+
+            border: 1px solid #34433b;
+
+            padding: 10px 18px;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .upload-picture-btn:hover {
+
+            background: #18a673;
+
+            border-color: #18a673;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* ----------------------------------------------------
+           DELETE PROFILE PICTURE BUTTON
+        ---------------------------------------------------- */
+
+        .delete-picture-btn {
+
+            background: #dc3545;
+
+            color: #ffffff;
+
+            border: 1px solid #dc3545;
+
+            padding: 10px 18px;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .delete-picture-btn:hover {
+
+            background: #b02a37;
+
+            border-color: #b02a37;
+
+            transform: translateY(-1px);
+        }
+
+
+        .profile-header h1 {
+
+            font-size: 30px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .profile-header p {
+
+            color: #9aa9a2;
+
+            font-size: 14px;
+        }
+
+
+        /* ----------------------------------------------------
+           PROFILE INFORMATION
+        ---------------------------------------------------- */
+
+        .profile-card {
+
+            background: #101513;
+
+            border: 1px solid #26332d;
+
+            border-radius: 15px;
+
+            padding: 25px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .profile-card h2 {
+
+            font-size: 19px;
+
+            margin-bottom: 22px;
+
+            color: #45d69e;
+        }
+
+
+        .info-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 16px 0;
+
+            border-bottom: 1px solid #26332d;
+        }
+
+
+        .info-row:last-child {
+
+            border-bottom: none;
+
+            padding-bottom: 0;
+        }
+
+
+        .info-label {
+
+            color: #9aa9a2;
+
+            font-size: 14px;
+        }
+
+
+        .info-value {
+
+            color: #ffffff;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            text-align: right;
+
+            word-break: break-word;
+        }
+
+
+        /* ----------------------------------------------------
+           EDIT PROFILE SECTION
+        ---------------------------------------------------- */
+
+        .edit-card {
+
+            background: #101513;
+
+            border: 1px solid #26332d;
+
+            border-radius: 15px;
+
+            padding: 25px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .edit-card h2 {
+
+            font-size: 19px;
+
+            margin-bottom: 22px;
+
+            color: #45d69e;
+        }
+
+
+        .form-group {
+
+            margin-bottom: 18px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            color: #9aa9a2;
+
+            font-size: 14px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border-radius: 9px;
+
+            border: 1px solid #34433b;
+
+            background: #151b18;
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #18a673;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(24, 166, 115, 0.12);
+        }
+
+
+        .edit-buttons {
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+            margin-top: 20px;
+        }
+
+
+        .save-btn {
+
+            background: #18a673;
+
+            color: #ffffff;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+
+        .save-btn:hover {
+
+            background: #149565;
+
+            transform: translateY(-1px);
+        }
+
+
+        .cancel-btn {
+
+            background: #26332d;
+
+            color: #ffffff;
+
+            border: 1px solid #34433b;
+        }
+
+
+        .cancel-btn:hover {
+
+            background: #34433b;
+        }
+
+
+        /* ----------------------------------------------------
+           SECURITY SECTION
+        ---------------------------------------------------- */
+
+        .security-card {
+
+            background: #101513;
+
+            border: 1px solid #26332d;
+
+            border-radius: 15px;
+
+            padding: 25px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .security-card h2 {
+
+            font-size: 19px;
+
+            margin-bottom: 10px;
+
+            color: #45d69e;
+        }
+
+
+        .security-card p {
+
+            color: #9aa9a2;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        .security-status {
+
+            display: inline-block;
+
+            margin-top: 15px;
+
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(24, 166, 115, 0.12);
+
+            border: 1px solid
+                rgba(24, 166, 115, 0.3);
+
+            color: #45d69e;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        /* ----------------------------------------------------
+           BUTTONS
+        ---------------------------------------------------- */
+
+        .button-area {
+
+            display: flex;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            justify-content: center;
+
+            margin-top: 25px;
+        }
+
+
+        .btn {
+
+            display: inline-block;
+
+            padding: 12px 22px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            transition: 0.2s;
+        }
+
+
+        .dashboard-btn {
+
+            background: #18a673;
+
+            color: white;
+        }
+
+
+        .dashboard-btn:hover {
+
+            background: #149565;
+
+            transform: translateY(-1px);
+        }
+
+
+        .logout-btn {
+
+            background: #26332d;
+
+            color: #ffffff;
+
+            border: 1px solid #34433b;
+        }
+
+
+        .logout-btn:hover {
+
+            background: #34433b;
+        }
+
+
+        /* ----------------------------------------------------
+           RESPONSIVE DESIGN
+        ---------------------------------------------------- */
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding: 15px;
+            }
+
+
+            .profile-container {
+
+                padding: 25px 18px;
+
+                margin: 20px auto;
+            }
+
+
+            .info-row {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 7px;
+            }
+
+
+            .info-value {
+
+                text-align: left;
+            }
+
+
+            .button-area {
+
+                flex-direction: column;
+            }
+
+
+            .edit-buttons {
+
+                flex-direction: column;
+            }
+
+
+            .btn {
+
+                width: 100%;
+
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="profile-container">
+
+
+        <!-- ==================================================
+             PROFILE HEADER
+        ================================================== -->
+
+        <div class="profile-header">
+
+
+            <!-- ==================================================
+                 PROFILE PICTURE
+            ================================================== -->
+
+            <div class="profile-picture-wrapper">
+
+                {% if profile_image %}
+
+                    <img
+                        src="{{ url_for('static', filename='images/profile/' + profile_image) }}"
+                        alt="Profile Picture"
+                        class="profile-picture"
+                    >
+
+                {% else %}
+
+                    <div class="default-profile-picture">
+                        👤
+                    </div>
+
+                {% endif %}
+
+
+                <!-- ==================================================
+                     UPLOAD PROFILE PICTURE
+                ================================================== -->
+
+                <form
+                    method="POST"
+                    action="{{ url_for('upload_profile_image') }}"
+                    enctype="multipart/form-data"
+                    class="picture-form"
+                >
+
+                    <input
+                        type="file"
+                        name="profile_image"
+                        class="picture-input"
+                        accept=".png,.jpg,.jpeg,.webp,.gif"
+                        required
+                    >
+
+
+                    <button
+                        type="submit"
+                        class="upload-picture-btn"
+                    >
+                        📷 Upload Picture
+                    </button>
+
+                </form>
+
+
+                <!-- ==================================================
+                     DELETE PROFILE PICTURE
+                ================================================== -->
+
+                {% if profile_image %}
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('delete_profile_image') }}"
+                        onsubmit="return confirm('Are you sure you want to delete your profile picture?');"
+                        class="picture-form"
+                    >
+
+                        <button
+                            type="submit"
+                            class="delete-picture-btn"
+                        >
+                            🗑️ Delete Picture
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+
+            </div>
+
+
+            <h1>
+                My Profile
+            </h1>
+
+
+            <p>
+                Your Credit Card Fraud Detection account information
+            </p>
+
+        </div>
+
+
+        <!-- ==================================================
+             PROFILE INFORMATION
+        ================================================== -->
+
+        <div class="profile-card">
+
+            <h2>
+                👤 Personal Information
+            </h2>
+
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    User ID
+                </span>
+
+                <span class="info-value">
+                    {{ user_id }}
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    Full Name
+                </span>
+
+                <span class="info-value">
+                    {{ user_name }}
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    Email Address
+                </span>
+
+                <span class="info-value">
+                    {{ user_email }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             EDIT PROFILE
+        ================================================== -->
+
+        <div class="edit-card">
+
+            <h2>
+                ✏️ Edit Profile
+            </h2>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('edit_profile') }}"
+            >
+
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ user_name }}"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ user_email }}"
+                        placeholder="Enter your email address"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="edit-buttons">
+
+                    <button
+                        type="submit"
+                        class="btn save-btn"
+                    >
+                        💾 Save Changes
+                    </button>
+
+
+                    <a
+                        href="{{ url_for('profile') }}"
+                        class="btn cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+
+        <!-- ==================================================
+             SECURITY INFORMATION
+        ================================================== -->
+
+        <div class="security-card">
+
+            <h2>
+                🔒 Account Security
+            </h2>
+
+
+            <p>
+                Your account is protected by password
+                authentication. Keep your login credentials
+                private and do not share your password with
+                anyone.
+            </p>
+
+
+            <span class="security-status">
+                ✓ Account Active
+            </span>
+
+        </div>
+
+
+        <!-- ==================================================
+             BUTTONS
+        ================================================== -->
+
+        <div class="button-area">
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="btn dashboard-btn"
+            >
+                ← Back to Dashboard
+            </a>
+
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="btn logout-btn"
+            >
+                Logout
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

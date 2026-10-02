@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Contact | Credit Card Fraud Detection</title>
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #101513;
+            color: #f3f5f4;
+            min-height: 100vh;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            width: 250px;
+            background: #151b18;
+            border-right: 1px solid #26302b;
+            padding: 28px 18px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            padding: 0 12px 28px;
+            border-bottom: 1px solid #29332e;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: #18a673;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .brand h2 {
+            font-size: 18px;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .brand p {
+            font-size: 12px;
+            color: #89958f;
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           NAVIGATION
+        ===================================================== */
+
+        .nav {
+            margin-top: 28px;
+        }
+
+        .nav-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #68746e;
+            padding: 0 12px 12px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #a9b3ae;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .nav a:hover {
+            background: #202a25;
+            color: #ffffff;
+        }
+
+        .nav a.active {
+            background: rgba(24, 166, 115, 0.14);
+            color: #45d69e;
+            border: 1px solid rgba(24, 166, 115, 0.18);
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR BOTTOM
+        ===================================================== */
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .system-status {
+            background: #101513;
+            border: 1px solid #29332e;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #a9b3ae;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #45d69e;
+        }
+
+        .logout {
+            color: #d59a83 !important;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 34px;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 30px;
+            margin-bottom: 7px;
+            color: #ffffff;
+        }
+
+        .topbar p {
+            color: #8e9a94;
+            font-size: 14px;
+        }
+
+        .user-box {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            background: #151b18;
+            border: 1px solid #29332e;
+            padding: 9px 13px;
+            border-radius: 12px;
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            background: #18a673;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .user-text strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .user-text span {
+            display: block;
+            font-size: 11px;
+            color: #7f8b85;
+            margin-top: 2px;
+        }
+
+
+        /* =====================================================
+           CONTACT GRID
+        ===================================================== */
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.3fr;
+            gap: 20px;
+        }
+
+
+        /* =====================================================
+           CARDS
+        ===================================================== */
+
+        .card {
+            background: #151b18;
+            border: 1px solid #29332e;
+            border-radius: 17px;
+            padding: 25px;
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            color: #8e9a94;
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 22px;
+        }
+
+
+        /* =====================================================
+           CONTACT INFORMATION
+        ===================================================== */
+
+        .contact-items {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            background: #101513;
+            border: 1px solid #29332e;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(24, 166, 115, 0.12);
+            color: #45d69e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+        }
+
+        .contact-item span {
+            display: block;
+            color: #6f7c75;
+            font-size: 10px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .contact-item strong {
+            color: #ffffff;
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #aab4af;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            background: #101513;
+            border: 1px solid #303b35;
+            border-radius: 10px;
+            padding: 12px 13px;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            transition: 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #18a673;
+            box-shadow: 0 0 0 3px rgba(24, 166, 115, 0.08);
+        }
+
+        .form-group textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .form-group select {
+            cursor: pointer;
+        }
+
+        .form-group select option {
+            background: #151b18;
+            color: #ffffff;
+        }
+
+
+        /* =====================================================
+           BUTTON
+        ===================================================== */
+
+        .submit-btn {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 13px;
+            background: #18a673;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: #149464;
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           NOTE
+        ===================================================== */
+
+        .form-note {
+            margin-top: 12px;
+            font-size: 10px;
+            color: #68746e;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+
+        /* =====================================================
+           BOTTOM INFORMATION
+        ===================================================== */
+
+        .info-section {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .info-card {
+            background: #151b18;
+            border: 1px solid #29332e;
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        .info-card-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 9px;
+            background: rgba(229, 196, 119, 0.10);
+            color: #e5c477;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .info-card h3 {
+            font-size: 13px;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .info-card p {
+            color: #75817b;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer-note {
+            text-align: center;
+            color: #66726c;
+            font-size: 11px;
+            margin-top: 25px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 950px) {
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .layout {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 22px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                CC
+            </div>
+
+            <h2>FraudGuard</h2>
+
+            <p>
+                Credit Card Fraud<br>
+                Detection System
+            </p>
+
+        </div>
+
+
+        <nav class="nav">
+
+            <div class="nav-title">
+                Main Menu
+            </div>
+
+
+            <a href="{{ url_for('dashboard') }}">
+
+                <span class="nav-icon">⌂</span>
+
+                Dashboard
+
+            </a>
+
+
+            <a href="{{ url_for('detect') }}">
+
+                <span class="nav-icon">⌕</span>
+
+                Detect Fraud
+
+            </a>
+
+
+            <a href="{{ url_for('analytics') }}">
+
+                <span class="nav-icon">◫</span>
+
+                Analytics
+
+            </a>
+
+
+            <a href="{{ url_for('transactions') }}">
+
+                <span class="nav-icon">▤</span>
+
+                Transactions
+
+            </a>
+
+
+            <div class="nav-title"
+                 style="margin-top: 22px;">
+
+                Information
+
+            </div>
+
+
+            <a href="{{ url_for('about') }}">
+
+                <span class="nav-icon">ⓘ</span>
+
+                About
+
+            </a>
+
+
+            <a href="{{ url_for('contact') }}"
+               class="active">
+
+                <span class="nav-icon">✉</span>
+
+                Contact
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+
+                <div class="status-row">
+
+                    <span class="status-dot"></span>
+
+                    System Online
+
+                </div>
+
+            </div>
+
+
+            <a href="{{ url_for('logout') }}"
+               class="nav logout">
+
+                <span class="nav-icon">↪</span>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- HEADER -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Contact</h1>
+
+                <p>
+                    Get in touch regarding the fraud detection system.
+                </p>
+
+            </div>
+
+
+            <div class="user-box">
+
+                <div class="avatar">
+                    A
+                </div>
+
+                <div class="user-text">
+
+                    <strong>Administrator</strong>
+
+                    <span>Fraud Detection System</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             CONTACT CONTENT
+        ================================================== -->
+
+        <section class="contact-grid">
+
+
+            <!-- CONTACT INFORMATION -->
+
+            <div class="card">
+
+                <h2>
+                    Contact Information
+                </h2>
+
+                <p class="card-description">
+                    If you have questions, suggestions or feedback
+                    about this project, you can use the information
+                    below.
+                </p>
+
+
+                <div class="contact-items">
+
+
+                    <div class="contact-item">
+
+                        <div class="contact-icon">
+                            ✉
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Email
+                            </span>
+
+                            <strong>
+                                support@fraudguard.local
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="contact-item">
+
+                        <div class="contact-icon">
+                            ◉
+                        </div>
+
+                        <div>
+
+                            <span>
+                                System
+                            </span>
+
+                            <strong>
+                                Credit Card Fraud Detection
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="contact-item">
+
+                        <div class="contact-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Status
+                            </span>
+
+                            <strong>
+                                System Online
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="contact-item">
+
+                        <div class="contact-icon">
+                            ⏱
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Support
+                            </span>
+
+                            <strong>
+                                Project Support & Feedback
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CONTACT FORM -->
+
+            <div class="card">
+
+                <h2>
+                    Send a Message
+                </h2>
+
+                <p class="card-description">
+                    Fill out the form below to submit your message.
+                </p>
+
+
+                <form method="POST"
+                      action="{{ url_for('contact') }}">
+
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Your Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="subject">
+                            Subject
+                        </label>
+
+                        <select
+                            id="subject"
+                            name="subject"
+                            required
+                        >
+
+                            <option value="">
+                                Select a subject
+                            </option>
+
+                            <option value="project">
+                                Project Question
+                            </option>
+
+                            <option value="feedback">
+                                Feedback
+                            </option>
+
+                            <option value="technical">
+                                Technical Issue
+                            </option>
+
+                            <option value="other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="message">
+                            Message
+                        </label>
+
+                        <textarea
+                            id="message"
+                            name="message"
+                            placeholder="Write your message here..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                    >
+                        Send Message
+                    </button>
+
+
+                    <div class="form-note">
+
+                        Your message form is currently part of the
+                        project interface. Email sending can be connected
+                        later if required.
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             INFORMATION CARDS
+        ================================================== -->
+
+        <section class="info-section">
+
+
+            <div class="info-card">
+
+                <div class="info-card-icon">
+                    ?
+                </div>
+
+                <h3>
+                    Need Help?
+                </h3>
+
+                <p>
+                    Use the contact form to describe your question
+                    or technical issue.
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-card-icon">
+                    ✓
+                </div>
+
+                <h3>
+                    Feedback
+                </h3>
+
+                <p>
+                    Suggestions and feedback can help improve the
+                    system interface and functionality.
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-card-icon">
+                    ⚙
+                </div>
+
+                <h3>
+                    Technical Support
+                </h3>
+
+                <p>
+                    Technical issues related to prediction or the
+                    web application can be reported here.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <div class="footer-note">
+
+            Credit Card Fraud Detection System • Contact & Support
+
+        </div>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

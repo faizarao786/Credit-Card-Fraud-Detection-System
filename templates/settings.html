@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Settings - FraudGuard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        /* =========================================================
+           SETTINGS PAGE
+        ========================================================= */
+
+        .settings-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5px 0 30px;
+        }
+
+        .settings-header {
+            margin-bottom: 25px;
+        }
+
+        .settings-header h1 {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 7px;
+        }
+
+        .settings-header p {
+            color: #7f8c85;
+            font-size: 13px;
+        }
+
+
+        /* =========================================================
+           SETTINGS GRID
+        ========================================================= */
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+
+        /* =========================================================
+           SETTINGS CARD
+        ========================================================= */
+
+        .settings-card {
+            background: #171e1a;
+            border: 1px solid #28342e;
+            border-radius: 12px;
+            padding: 24px;
+            transition: 0.2s ease;
+        }
+
+        .settings-card:hover {
+            border-color: #345046;
+        }
+
+        .settings-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .settings-card h2 {
+            color: #ffffff;
+            font-size: 17px;
+            font-weight: 800;
+            margin: 0 0 6px;
+        }
+
+        .settings-card > p {
+            color: #75827b;
+            font-size: 12px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+
+        /* =========================================================
+           SETTING ROW
+        ========================================================= */
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 17px 0;
+            border-bottom: 1px solid #28342e;
+        }
+
+        .setting-row:first-child {
+            padding-top: 0;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-info h3 {
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            margin: 0 0 5px;
+        }
+
+        .setting-info p {
+            color: #75827b;
+            font-size: 11px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+
+        /* =========================================================
+           TOGGLE SWITCH
+        ========================================================= */
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            min-width: 48px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #344139;
+            border-radius: 30px;
+            transition: 0.3s ease;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: 3px;
+            top: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            transition: 0.3s ease;
+        }
+
+        .switch input:checked + .slider {
+            background: #18a673;
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+
+
+        /* =========================================================
+           SELECT
+        ========================================================= */
+
+        .settings-select {
+            background: #141b17;
+            color: #ffffff;
+            border: 1px solid #29342e;
+            border-radius: 8px;
+            padding: 9px 12px;
+            min-width: 130px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .settings-select:focus {
+            border-color: #18a673;
+        }
+
+        .settings-select option {
+            background: #141b17;
+            color: #ffffff;
+        }
+
+
+        /* =========================================================
+           ACCOUNT INFORMATION
+        ========================================================= */
+
+        .account-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .account-item {
+            background: #141b17;
+            border: 1px solid #29342e;
+            border-radius: 9px;
+            padding: 15px;
+        }
+
+        .account-item span {
+            display: block;
+            color: #75827b;
+            font-size: 10px;
+            text-transform: uppercase;
+            margin-bottom: 7px;
+        }
+
+        .account-item strong {
+            color: #ffffff;
+            font-size: 13px;
+            word-break: break-word;
+        }
+
+
+        /* =========================================================
+           SAVE BUTTON
+        ========================================================= */
+
+        .settings-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .save-settings-btn {
+            border: none;
+            border-radius: 9px;
+            background: #18a673;
+            color: #ffffff;
+            padding: 11px 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .save-settings-btn:hover {
+            background: #12875d;
+            transform: translateY(-1px);
+        }
+
+        .save-settings-btn:active {
+            transform: translateY(0);
+        }
+
+
+        /* =========================================================
+           LIGHT MODE
+        ========================================================= */
+
+        body.light-mode .settings-header h1 {
+            color: #172033;
+        }
+
+        body.light-mode .settings-header p {
+            color: #64748b;
+        }
+
+        body.light-mode .settings-card {
+            background: #ffffff;
+            border-color: #e2e8f0;
+        }
+
+        body.light-mode .settings-card:hover {
+            border-color: #cbd5e1;
+        }
+
+        body.light-mode .settings-card h2 {
+            color: #172033;
+        }
+
+        body.light-mode .settings-card > p {
+            color: #64748b;
+        }
+
+        body.light-mode .setting-row {
+            border-bottom-color: #e2e8f0;
+        }
+
+        body.light-mode .setting-info h3 {
+            color: #172033;
+        }
+
+        body.light-mode .setting-info p {
+            color: #64748b;
+        }
+
+        body.light-mode .settings-select {
+            background: #f8fafc;
+            color: #172033;
+            border-color: #e2e8f0;
+        }
+
+        body.light-mode .settings-select option {
+            background: #ffffff;
+            color: #172033;
+        }
+
+        body.light-mode .account-item {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+        }
+
+        body.light-mode .account-item span {
+            color: #64748b;
+        }
+
+        body.light-mode .account-item strong {
+            color: #172033;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-card.full-width {
+                grid-column: auto;
+            }
+
+            .account-box {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .settings-container {
+                padding: 0 0 25px;
+            }
+
+            .settings-header h1 {
+                font-size: 24px;
+            }
+
+            .settings-card {
+                padding: 18px;
+            }
+
+            .setting-row {
+                align-items: flex-start;
+            }
+
+            .settings-select {
+                min-width: 110px;
+            }
+
+            .settings-actions {
+                justify-content: stretch;
+            }
+
+            .save-settings-btn {
+                width: 100%;
+            }
+
+        }
+
+
+        @media (max-width: 400px) {
+
+            .setting-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .switch {
+                align-self: flex-end;
+            }
+
+            .settings-select {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <span>🛡️</span>
+
+            <span>FraudGuard</span>
+
+        </div>
+
+
+        <nav>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="nav-link">
+
+                <span class="nav-icon">📊</span>
+
+                Dashboard
+
+            </a>
+
+
+            <a href="{{ url_for('detect') }}"
+               class="nav-link">
+
+                <span class="nav-icon">🔍</span>
+
+                Detect Fraud
+
+            </a>
+
+
+            <a href="{{ url_for('bulk_prediction') }}"
+               class="nav-link">
+
+                <span class="nav-icon">📁</span>
+
+                Bulk Prediction
+
+            </a>
+
+
+            <a href="{{ url_for('analytics') }}"
+               class="nav-link">
+
+                <span class="nav-icon">📈</span>
+
+                Analytics
+
+            </a>
+
+
+            <a href="{{ url_for('transactions') }}"
+               class="nav-link">
+
+                <span class="nav-icon">💳</span>
+
+                Transactions
+
+            </a>
+
+
+            <a href="{{ url_for('fraud_alerts') }}"
+               class="nav-link">
+
+                <span class="nav-icon">🚨</span>
+
+                Fraud Alerts
+
+            </a>
+
+
+            <a href="{{ url_for('prediction_history') }}"
+               class="nav-link">
+
+                <span class="nav-icon">🕒</span>
+
+                Prediction History
+
+            </a>
+
+
+            <a href="{{ url_for('about') }}"
+               class="nav-link">
+
+                <span class="nav-icon">ℹ️</span>
+
+                About
+
+            </a>
+
+
+            <a href="{{ url_for('contact') }}"
+               class="nav-link">
+
+                <span class="nav-icon">📩</span>
+
+                Contact
+
+            </a>
+
+
+            <a href="{{ url_for('settings') }}"
+               class="nav-link active">
+
+                <span class="nav-icon">⚙️</span>
+
+                Settings
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="{{ url_for('logout') }}"
+               class="nav-link">
+
+                <span class="nav-icon">🚪</span>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =====================================================
+             TOPBAR
+        ====================================================== -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h2>Settings</h2>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                {% if session.get("user") %}
+
+                    <span class="user-name">
+
+                        👤 {{ session.get("user") }}
+
+                    </span>
+
+                {% endif %}
+
+
+                <button
+                    id="themeToggle"
+                    class="theme-toggle"
+                    type="button">
+
+                    🌙
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             SETTINGS CONTENT
+        ====================================================== -->
+
+        <section class="settings-container">
+
+
+            <div class="settings-header">
+
+                <h1>Settings</h1>
+
+                <p>
+                    Manage your FraudGuard application preferences.
+                </p>
+
+            </div>
+
+
+            <div class="settings-grid">
+
+
+                <!-- =================================================
+                     APPEARANCE
+                ================================================== -->
+
+                <div class="settings-card">
+
+                    <h2>🎨 Appearance</h2>
+
+                    <p>
+                        Customize how FraudGuard looks on your device.
+                    </p>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Dark Mode</h3>
+
+                            <p>
+                                Switch between dark and light appearance.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                id="darkModeSetting">
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Compact Interface</h3>
+
+                            <p>
+                                Use a more compact application layout.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                id="compactMode">
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     NOTIFICATIONS
+                ================================================== -->
+
+                <div class="settings-card">
+
+                    <h2>🔔 Notifications</h2>
+
+                    <p>
+                        Control application notification preferences.
+                    </p>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Fraud Alerts</h3>
+
+                            <p>
+                                Receive alerts when fraud is detected.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                id="fraudAlerts"
+                                checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Prediction Notifications</h3>
+
+                            <p>
+                                Show notifications after predictions.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                id="predictionNotifications"
+                                checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     PREFERENCES
+                ================================================== -->
+
+                <div class="settings-card">
+
+                    <h2>⚙️ Preferences</h2>
+
+                    <p>
+                        Configure your application preferences.
+                    </p>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Prediction Result Format</h3>
+
+                            <p>
+                                Choose how prediction results are displayed.
+                            </p>
+
+                        </div>
+
+
+                        <select
+                            class="settings-select"
+                            id="resultFormat">
+
+                            <option value="detailed">
+                                Detailed
+                            </option>
+
+                            <option value="simple">
+                                Simple
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <h3>Currency</h3>
+
+                            <p>
+                                Currency used when displaying
+                                transaction amounts.
+                            </p>
+
+                        </div>
+
+
+                        <select
+                            class="settings-select"
+                            id="currency">
+
+                            <option value="usd">
+                                USD ($)
+                            </option>
+
+                            <option value="pkr">
+                                PKR (₨)
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     ACCOUNT INFORMATION
+                ================================================== -->
+
+                <div class="settings-card">
+
+                    <h2>👤 Account Information</h2>
+
+                    <p>
+                        Information about your current
+                        FraudGuard account.
+                    </p>
+
+
+                    <div class="account-box">
+
+
+                        <div class="account-item">
+
+                            <span>Name</span>
+
+                            <strong>
+
+                                {{ session.get(
+                                    "user_name",
+                                    "User"
+                                ) }}
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="account-item">
+
+                            <span>Email</span>
+
+                            <strong>
+
+                                {{ session.get(
+                                    "user",
+                                    "user@email.com"
+                                ) }}
+
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     SAVE SETTINGS
+                ================================================== -->
+
+                <div class="settings-card full-width">
+
+                    <h2>💾 Save Preferences</h2>
+
+                    <p>
+                        Your settings are saved in your browser
+                        using local storage.
+                    </p>
+
+
+                    <div class="settings-actions">
+
+                        <button
+                            type="button"
+                            class="save-settings-btn"
+                            id="saveSettings">
+
+                            Save Settings
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         SETTINGS JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+
+
+        /* =====================================================
+           GET ELEMENTS
+        ====================================================== */
+
+        const themeToggle =
+            document.getElementById("themeToggle");
+
+        const darkModeSetting =
+            document.getElementById("darkModeSetting");
+
+        const compactMode =
+            document.getElementById("compactMode");
+
+        const saveSettings =
+            document.getElementById("saveSettings");
+
+        const fraudAlerts =
+            document.getElementById("fraudAlerts");
+
+        const predictionNotifications =
+            document.getElementById(
+                "predictionNotifications"
+            );
+
+        const resultFormat =
+            document.getElementById("resultFormat");
+
+        const currency =
+            document.getElementById("currency");
+
+
+        /* =====================================================
+           APPLY THEME
+        ====================================================== */
+
+        function applyTheme(theme) {
+
+            if (theme === "dark") {
+
+                document.body.classList.add("dark-mode");
+
+                themeToggle.textContent = "☀️";
+
+                darkModeSetting.checked = true;
+
+            } else {
+
+                document.body.classList.remove("dark-mode");
+
+                themeToggle.textContent = "🌙";
+
+                darkModeSetting.checked = false;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           LOAD SAVED THEME
+        ====================================================== */
+
+        const savedTheme =
+            localStorage.getItem(
+                "fraudguard-theme"
+            );
+
+
+        if (savedTheme) {
+
+            applyTheme(savedTheme);
+
+        } else {
+
+            applyTheme("dark");
+
+            localStorage.setItem(
+                "fraudguard-theme",
+                "dark"
+            );
+
+        }
+
+
+        /* =====================================================
+           TOPBAR THEME BUTTON
+        ====================================================== */
+
+        themeToggle.addEventListener(
+            "click",
+            function () {
+
+                const currentTheme =
+                    document.body.classList.contains(
+                        "dark-mode"
+                    )
+                        ? "dark"
+                        : "light";
+
+
+                const newTheme =
+                    currentTheme === "dark"
+                        ? "light"
+                        : "dark";
+
+
+                applyTheme(newTheme);
+
+
+                localStorage.setItem(
+                    "fraudguard-theme",
+                    newTheme
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           DARK MODE SETTING
+        ====================================================== */
+
+        darkModeSetting.addEventListener(
+            "change",
+            function () {
+
+                const newTheme =
+                    this.checked
+                        ? "dark"
+                        : "light";
+
+
+                applyTheme(newTheme);
+
+
+                localStorage.setItem(
+                    "fraudguard-theme",
+                    newTheme
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           LOAD OTHER SETTINGS
+        ====================================================== */
+
+        const savedFraudAlerts =
+            localStorage.getItem(
+                "fraudguard-fraud-alerts"
+            );
+
+
+        const savedPredictionNotifications =
+            localStorage.getItem(
+                "fraudguard-prediction-notifications"
+            );
+
+
+        const savedCompactMode =
+            localStorage.getItem(
+                "fraudguard-compact-mode"
+            );
+
+
+        const savedResultFormat =
+            localStorage.getItem(
+                "fraudguard-result-format"
+            );
+
+
+        const savedCurrency =
+            localStorage.getItem(
+                "fraudguard-currency"
+            );
+
+
+        if (savedFraudAlerts !== null) {
+
+            fraudAlerts.checked =
+                savedFraudAlerts === "true";
+
+        }
+
+
+        if (savedPredictionNotifications !== null) {
+
+            predictionNotifications.checked =
+                savedPredictionNotifications === "true";
+
+        }
+
+
+        if (savedCompactMode !== null) {
+
+            compactMode.checked =
+                savedCompactMode === "true";
+
+        }
+
+
+        if (savedResultFormat !== null) {
+
+            resultFormat.value =
+                savedResultFormat;
+
+        }
+
+
+        if (savedCurrency !== null) {
+
+            currency.value =
+                savedCurrency;
+
+        }
+
+
+        /* =====================================================
+           SAVE SETTINGS
+        ====================================================== */
+
+        saveSettings.addEventListener(
+            "click",
+            function () {
+
+
+                localStorage.setItem(
+                    "fraudguard-fraud-alerts",
+                    fraudAlerts.checked
+                );
+
+
+                localStorage.setItem(
+                    "fraudguard-prediction-notifications",
+                    predictionNotifications.checked
+                );
+
+
+                localStorage.setItem(
+                    "fraudguard-compact-mode",
+                    compactMode.checked
+                );
+
+
+                localStorage.setItem(
+                    "fraudguard-result-format",
+                    resultFormat.value
+                );
+
+
+                localStorage.setItem(
+                    "fraudguard-currency",
+                    currency.value
+                );
+
+
+                saveSettings.textContent =
+                    "✓ Settings Saved";
+
+
+                setTimeout(
+                    function () {
+
+                        saveSettings.textContent =
+                            "Save Settings";
+
+                    },
+                    2000
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           COMPACT MODE
+        ====================================================== */
+
+        compactMode.addEventListener(
+            "change",
+            function () {
+
+                if (this.checked) {
+
+                    document.body.classList.add(
+                        "compact-mode"
+                    );
+
+                } else {
+
+                    document.body.classList.remove(
+                        "compact-mode"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           APPLY SAVED COMPACT MODE
+        ====================================================== */
+
+        if (savedCompactMode === "true") {
+
+            document.body.classList.add(
+                "compact-mode"
+            );
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

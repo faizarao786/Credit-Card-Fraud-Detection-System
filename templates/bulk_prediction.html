@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bulk Prediction - FraudShield</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #101513;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #151c19;
+            border-right: 1px solid #27332e;
+            padding: 25px 18px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #18a673;
+            margin-bottom: 35px;
+            padding-left: 10px;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        .nav-item {
+            display: block;
+            text-decoration: none;
+            color: #aebbb5;
+            padding: 14px 15px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #1c2a24;
+            color: #18a673;
+        }
+
+        .logout {
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+            background: #211b18;
+            color: #d97c4f;
+        }
+
+        .logout:hover {
+            background: #30221d;
+            color: #e68c5d;
+        }
+
+        /* Main */
+        .main {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #8f9d97;
+            font-size: 14px;
+        }
+
+        .user-box {
+            background: #151c19;
+            border: 1px solid #27332e;
+            padding: 10px 16px;
+            border-radius: 12px;
+            color: #b9c5c0;
+        }
+
+        /* Cards */
+        .card {
+            background: #151c19;
+            border: 1px solid #27332e;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            color: #8f9d97;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* Upload */
+        .upload-box {
+            border: 2px dashed #315447;
+            border-radius: 14px;
+            padding: 45px 20px;
+            text-align: center;
+            background: #121916;
+            transition: 0.3s;
+        }
+
+        .upload-box:hover {
+            border-color: #18a673;
+        }
+
+        .upload-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .upload-box h3 {
+            margin-bottom: 8px;
+        }
+
+        .upload-box p {
+            color: #8f9d97;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            padding: 12px 22px;
+            background: #18a673;
+            color: white;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .file-label:hover {
+            background: #149263;
+        }
+
+        .file-name {
+            margin-top: 15px;
+            color: #18a673;
+            font-size: 14px;
+        }
+
+        .predict-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #18a673;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .predict-btn:hover {
+            background: #149263;
+        }
+
+        /* Info */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .info-box {
+            background: #121916;
+            border: 1px solid #27332e;
+            border-radius: 12px;
+            padding: 18px;
+        }
+
+        .info-box h4 {
+            color: #18a673;
+            margin-bottom: 8px;
+        }
+
+        .info-box p {
+            color: #8f9d97;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Messages */
+        .alert {
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .error {
+            background: #351f1c;
+            border: 1px solid #71382d;
+            color: #e68c5d;
+        }
+
+        .success {
+            background: #163126;
+            border: 1px solid #245c47;
+            color: #55d9a4;
+        }
+
+        /* Results */
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-box {
+            background: #121916;
+            border: 1px solid #27332e;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .summary-box .number {
+            font-size: 27px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .normal-number {
+            color: #18a673;
+        }
+
+        .fraud-number {
+            color: #d97c4f;
+        }
+
+        .total-number {
+            color: #ffffff;
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th {
+            background: #1c2823;
+            color: #18a673;
+            padding: 14px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 13px 14px;
+            border-bottom: 1px solid #27332e;
+            color: #c1cbc6;
+            font-size: 13px;
+        }
+
+        tr:hover {
+            background: #18201d;
+        }
+
+        .badge {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .badge-normal {
+            background: #163126;
+            color: #55d9a4;
+        }
+
+        .badge-fraud {
+            background: #351f1c;
+            color: #e68c5d;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+            }
+
+            .info-grid,
+            .results-summary {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .logout {
+                position: static;
+                margin-top: 10px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            Fraud<span>Shield</span>
+        </div>
+
+        <a href="{{ url_for('dashboard') }}" class="nav-item">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('detect') }}" class="nav-item">
+            Detect Fraud
+        </a>
+
+        <a href="{{ url_for('bulk_prediction') }}" class="nav-item active">
+            Bulk Prediction
+        </a>
+
+        <a href="{{ url_for('analytics') }}" class="nav-item">
+            Analytics
+        </a>
+
+        <a href="{{ url_for('transactions') }}" class="nav-item">
+            Transactions
+        </a>
+
+        <a href="{{ url_for('about') }}" class="nav-item">
+            About
+        </a>
+
+        <a href="{{ url_for('contact') }}" class="nav-item">
+            Contact
+        </a>
+
+        <a href="{{ url_for('logout') }}" class="nav-item logout">
+            Logout
+        </a>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <!-- Topbar -->
+        <div class="topbar">
+
+            <div class="page-title">
+                <h1>Bulk Prediction</h1>
+                <p>Upload multiple transactions and analyze them together.</p>
+            </div>
+
+            <div class="user-box">
+                👤 {{ session.get('user_name', 'User') }}
+            </div>
+
+        </div>
+
+
+        <!-- Error Message -->
+        {% if error %}
+        <div class="alert error">
+            {{ error }}
+        </div>
+        {% endif %}
+
+
+        <!-- Success Message -->
+        {% if success %}
+        <div class="alert success">
+            {{ success }}
+        </div>
+        {% endif %}
+
+
+        <!-- Upload Card -->
+        <div class="card">
+
+            <h2>Upload Transaction Dataset</h2>
+
+            <p class="card-description">
+                Upload a CSV file containing multiple credit card transactions
+                for automatic fraud detection.
+            </p>
+
+            <form method="POST"
+                  action="{{ url_for('bulk_prediction') }}"
+                  enctype="multipart/form-data">
+
+                <div class="upload-box">
+
+                    <div class="upload-icon">
+                        📁
+                    </div>
+
+                    <h3>Select CSV File</h3>
+
+                    <p>
+                        Your CSV should contain Time, V1-V28 and Amount columns.
+                    </p>
+
+                    <label for="file" class="file-label">
+                        Choose CSV File
+                    </label>
+
+                    <input
+                        type="file"
+                        id="file"
+                        name="file"
+                        accept=".csv"
+                        required
+                    >
+
+                    <div class="file-name" id="fileName">
+                        No file selected
+                    </div>
+
+                </div>
+
+                <button type="submit" class="predict-btn">
+                    🔍 Analyze Transactions
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- Information -->
+        <div class="card">
+
+            <h2>Bulk Prediction Information</h2>
+
+            <p class="card-description">
+                Use this feature when you need to analyze a large number of
+                transactions at the same time.
+            </p>
+
+            <div class="info-grid">
+
+                <div class="info-box">
+                    <h4>CSV Upload</h4>
+                    <p>
+                        Upload a CSV file containing transaction records.
+                    </p>
+                </div>
+
+                <div class="info-box">
+                    <h4>Automatic Analysis</h4>
+                    <p>
+                        The trained machine learning model analyzes every
+                        transaction automatically.
+                    </p>
+                </div>
+
+                <div class="info-box">
+                    <h4>Fraud Results</h4>
+                    <p>
+                        Each transaction is classified as Normal or Fraudulent.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Results -->
+        {% if results %}
+
+        <div class="card">
+
+            <h2>Prediction Results</h2>
+
+            <p class="card-description">
+                Results generated by the fraud detection model.
+            </p>
+
+
+            <!-- Summary -->
+            <div class="results-summary">
+
+                <div class="summary-box">
+                    <div>Total Transactions</div>
+                    <div class="number total-number">
+                        {{ total_predictions }}
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div>Normal Transactions</div>
+                    <div class="number normal-number">
+                        {{ normal_predictions }}
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div>Fraudulent Transactions</div>
+                    <div class="number fraud-number">
+                        {{ fraud_predictions }}
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Results Table -->
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Transaction</th>
+                            <th>Amount</th>
+                            <th>Prediction</th>
+                            <th>Fraud Probability</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for row in results %}
+
+                        <tr>
+
+                            <td>
+                                {{ loop.index }}
+                            </td>
+
+                            <td>
+                                Transaction {{ loop.index }}
+                            </td>
+
+                            <td>
+                                {% if row.Amount is defined %}
+                                    ${{ "%.2f"|format(row.Amount|float) }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+
+                            <td>
+
+                                {% if row.Prediction == "Fraudulent Transaction" %}
+
+                                    <span class="badge badge-fraud">
+                                        Fraudulent
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge badge-normal">
+                                        Normal
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if row.Fraud_Probability is defined %}
+                                    {{ "%.2f"|format(row.Fraud_Probability|float) }}%
+                                {% else %}
+                                    -
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </main>
+
+
+    <!-- File Name Script -->
+    <script>
+
+        const fileInput = document.getElementById("file");
+        const fileName = document.getElementById("fileName");
+
+        fileInput.addEventListener("change", function () {
+
+            if (this.files.length > 0) {
+
+                fileName.textContent =
+                    "Selected file: " + this.files[0].name;
+
+            } else {
+
+                fileName.textContent =
+                    "No file selected";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
